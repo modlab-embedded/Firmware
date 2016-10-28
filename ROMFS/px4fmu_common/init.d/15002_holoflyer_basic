@@ -4,27 +4,21 @@
 #
 # @type Coaxial Helicopter
 # 
-# @output MAIN1 Left swashplate servomotor, pitch axis
-# @output MAIN2 Right swashplate servomotor, roll axis
-# @output MAIN3 Upper rotor (CCW)
-# @output MAIN4 Lower rotor (CW)
+# @output MAIN1 Top rotor (CCW)
+# @output MAIN2 Top Pitch
+# @output MAIN3 Top Roll
+# @output MAIN4 Bottom rotor (CW)
+# @output MAIN5 Bottom Pitch
+# @output MAIN6 Bottom Roll
 #
 # @maintainer Jimmy Paulos
 #
 
 sh /etc/init.d/rc.mc_defaults
-set MIXER coax
+set MIXER holoflyer_basic
 
 if [ $AUTOCNF == yes ]
 then
-	param set NAV_ACC_RAD 2.0
-	param set RTL_RETURN_ALT 30.0
-	param set RTL_DESCEND_ALT 10.0
-
-	param set PWM_DISARMED 900
-	param set PWM_MIN 1075
-	param set PWM_MAX 1950
-
 	param set MC_ROLL_P 6.5
 	param set MC_ROLLRATE_P 0.17
 	param set MC_ROLLRATE_I 0.05
@@ -44,7 +38,7 @@ then
 fi
 
 echo "use PWM parameters"
-set PWM_OUT 1234
+set PWM_OUT 123456
 set PWM_RATE 200
 set PWM_DISARMED p:PWM_DISARMED
 set PWM_MIN p:PWM_MIN
