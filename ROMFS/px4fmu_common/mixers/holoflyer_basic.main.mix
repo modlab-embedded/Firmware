@@ -1,0 +1,44 @@
+HoloFlyer mixer for attitude control
+- Top rotor CCW, Bottom rotor CW
+- Top and bottom roll/pitch cyclic
+===========================
+
+Upper Rotor Speed (CCW)
+Mixing between yaw and thrust
+-------------
+M: 2
+O:      10000  10000      0 -10000  10000
+S: 0 2  10000  10000      0 -10000  10000
+S: 0 3      0  20000 -10000 -10000  10000
+
+Upper Pitch
+-------------
+M: 1
+O:      10000  10000      0 -10000  10000
+S: 0 1  -10000  -10000      0 -10000  10000
+
+Upper Roll
+-------------
+M: 1
+O:      10000  10000      0 -10000  10000
+S: 0 0  10000  10000      0 -10000  10000
+
+Lower Rotor Speed CW
+Mixing between yaw and thrust
+-------------
+M: 2
+O:      10000  10000      0 -10000  10000
+S: 0 2  -10000  -10000      0 -10000  10000
+S: 0 3      0  20000 -10000 -10000  10000
+
+Lower Pitch
+-------------
+M: 1
+O:      10000  10000      0 -10000  10000
+S: 0 1  -10000  -10000      0 -10000  10000
+
+Lower Roll
+-------------
+M: 1
+O:      10000  10000      0 -10000  10000
+S: 0 0  10000  10000      0 -10000  10000
