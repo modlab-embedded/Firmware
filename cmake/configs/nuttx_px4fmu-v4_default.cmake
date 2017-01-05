@@ -50,6 +50,7 @@ set(config_module_list
 	drivers/bma180
 	drivers/bmi160
 	drivers/tap_esc
+	drivers/iridiumsbd
 
 	#
 	# System commands
@@ -77,6 +78,7 @@ set(config_module_list
 	drivers/sf0x/sf0x_tests
 	drivers/test_ppm
 	modules/commander/commander_tests
+	modules/mc_pos_control/mc_pos_control_tests
 	modules/controllib_test
 	modules/mavlink/mavlink_tests
 	modules/unit_test
