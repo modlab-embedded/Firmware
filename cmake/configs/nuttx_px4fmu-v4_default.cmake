@@ -172,11 +172,11 @@ set(config_module_list
 
 	# Tutorial code from
 	# https://px4.io/dev/daemon
-	#examples/px4_daemon_app
+	examples/px4_daemon_app
 
 	# Tutorial code from
 	# https://px4.io/dev/debug_values
-	#examples/px4_mavlink_debug
+	examples/px4_mavlink_debug
 
 	# Tutorial code from
 	# https://px4.io/dev/example_fixedwing_control
@@ -187,6 +187,8 @@ set(config_module_list
 
 	# EKF
 	examples/ekf_att_pos_estimator
+
+	examples/subscriber
 )
 
 set(config_extra_builtin_cmds
