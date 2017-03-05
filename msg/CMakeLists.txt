@@ -89,6 +89,7 @@ set(msg_file_names
 	sensor_accel.msg
 	sensor_baro.msg
 	sensor_combined.msg
+	sensor_correction.msg
 	sensor_gyro.msg
 	sensor_mag.msg
 	sensor_preflight.msg
@@ -124,13 +125,19 @@ set(msg_file_names
 	vehicle_roi.msg
 	mount_orientation.msg
 	collision_report.msg
+	low_stack.msg
 	)
 
 # Get absolute paths
 set(msg_files)
+set(msg_include_paths)
+
 foreach(msg_file ${msg_file_names})
 	list(APPEND msg_files ${CMAKE_CURRENT_SOURCE_DIR}/${msg_file})
 endforeach()
+
+list(APPEND msg_include_paths ${CMAKE_CURRENT_SOURCE_DIR})
+set(msg_include_paths ${msg_include_paths} PARENT_SCOPE)
 
 set(msg_files ${msg_files} PARENT_SCOPE)
 

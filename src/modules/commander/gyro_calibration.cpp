@@ -37,6 +37,7 @@
  * Gyroscope calibration routine
  */
 
+#include <px4_config.h>
 #include "gyro_calibration.h"
 #include "calibration_messages.h"
 #include "calibration_routines.h"
@@ -57,7 +58,6 @@
 #include <systemlib/mavlink_log.h>
 #include <systemlib/param/param.h>
 #include <systemlib/err.h>
-#include <systemlib/mcu_version.h>
 
 static const char *sensor_name = "gyro";
 
@@ -180,7 +180,7 @@ int do_gyro_calibration(orb_advert_t *mavlink_log_pub)
 
 		// Reset all offsets to 0 and scales to 1
 		(void)memcpy(&worker_data.gyro_scale[s], &gyro_scale_zero, sizeof(gyro_scale_zero));
-#if !defined(__PX4_QURT) && !defined(__PX4_POSIX_EAGLE) && !defined(__PX4_POSIX_RPI) && !defined(__PX4_POSIX_BEBOP)
+#if !defined(__PX4_QURT) && !defined(__PX4_POSIX_EAGLE) && !defined(__PX4_POSIX_EXCELSIOR) && !defined(__PX4_POSIX_RPI) && !defined(__PX4_POSIX_BEBOP)
 		sprintf(str, "%s%u", GYRO_BASE_DEVICE_PATH, s);
 		int fd = px4_open(str, 0);
 		if (fd >= 0) {
@@ -233,7 +233,7 @@ int do_gyro_calibration(orb_advert_t *mavlink_log_pub)
 	for (unsigned s = 0; s < gyro_count; s++) {
 
 		worker_data.gyro_sensor_sub[s] = orb_subscribe_multi(ORB_ID(sensor_gyro), s);
-#if defined(__PX4_QURT) || defined(__PX4_POSIX_EAGLE) || defined(__PX4_POSIX_RPI) || defined(__PX4_POSIX_BEBOP)
+#if defined(__PX4_QURT) || defined(__PX4_POSIX_EAGLE) || defined(__PX4_POSIX_EXCELSIOR) || defined(__PX4_POSIX_RPI) || defined(__PX4_POSIX_BEBOP)
 		// For QURT respectively the driver framework, we need to get the device ID by copying one report.
 		struct gyro_report gyro_report;
 		orb_copy(ORB_ID(sensor_gyro), worker_data.gyro_sensor_sub[s], &gyro_report);
@@ -331,7 +331,7 @@ int do_gyro_calibration(orb_advert_t *mavlink_log_pub)
 				(void)sprintf(str, "CAL_GYRO%u_ID", s);
 				failed |= (PX4_OK != param_set_no_notification(param_find(str), &(worker_data.device_id[s])));
 
-#if !defined(__PX4_QURT) && !defined(__PX4_POSIX_EAGLE) && !defined(__PX4_POSIX_RPI) && !defined(__PX4_POSIX_BEBOP)
+#if !defined(__PX4_QURT) && !defined(__PX4_POSIX_EAGLE) && !defined(__PX4_POSIX_EXCELSIOR) && !defined(__PX4_POSIX_RPI) && !defined(__PX4_POSIX_BEBOP)
 				/* apply new scaling and offsets */
 				(void)sprintf(str, "%s%u", GYRO_BASE_DEVICE_PATH, s);
 				int fd = px4_open(str, 0);
@@ -358,8 +358,8 @@ int do_gyro_calibration(orb_advert_t *mavlink_log_pub)
 	}
 
 	/* store board ID */
-	uint32_t mcu_id[3];
-	mcu_unique_id(&mcu_id[0]);
+	raw_uuid_uint32_t mcu_id;
+	board_get_uuid_raw32(mcu_id, NULL);
 
 	/* store last 32bit number - not unique, but unique in a given set */
 	(void)param_set(param_find("CAL_BOARD_ID"), &mcu_id[2]);

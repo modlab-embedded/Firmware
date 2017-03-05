@@ -48,8 +48,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <systemlib/err.h>
-#include <systemlib/systemlib.h>
 #include <px4_defines.h>
+#include <px4_tasks.h>
 
 #include "input_mavlink.h"
 #include "input_rc.h"
@@ -316,17 +316,17 @@ static int vmount_thread_main(int argc, char *argv[])
 			if (updated) {
 				//re-init objects
 				if (thread_data.input_obj) {
-					delete(thread_data.input_obj);
+					delete (thread_data.input_obj);
 					thread_data.input_obj = nullptr;
 				}
 
 				if (thread_data.output_obj) {
-					delete(thread_data.output_obj);
+					delete (thread_data.output_obj);
 					thread_data.output_obj = nullptr;
 				}
 
 				if (manual_input) {
-					delete(manual_input);
+					delete (manual_input);
 					manual_input = nullptr;
 				}
 			}
@@ -338,17 +338,17 @@ static int vmount_thread_main(int argc, char *argv[])
 	orb_unsubscribe(parameter_update_sub);
 
 	if (thread_data.input_obj) {
-		delete(thread_data.input_obj);
+		delete (thread_data.input_obj);
 		thread_data.input_obj = nullptr;
 	}
 
 	if (thread_data.output_obj) {
-		delete(thread_data.output_obj);
+		delete (thread_data.output_obj);
 		thread_data.output_obj = nullptr;
 	}
 
 	if (manual_input) {
-		delete(manual_input);
+		delete (manual_input);
 		manual_input = nullptr;
 	}
 
