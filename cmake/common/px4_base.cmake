@@ -580,6 +580,23 @@ function(px4_add_scp_push)
 		)
 endfunction()
 
+function(px4_add_upload_aero)
+	px4_parse_function_args(
+		NAME px4_add_upload_aero
+		ONE_VALUE OS BOARD OUT BUNDLE
+		REQUIRED OS BOARD OUT BUNDLE
+		ARGN ${ARGN})
+
+	add_custom_target(${OUT}
+		COMMAND ${PX4_SOURCE_DIR}/Tools/aero_upload.sh ${BUNDLE}
+		DEPENDS ${BUNDLE}
+		WORKING_DIRECTORY ${PX4_BINARY_DIR}
+		COMMENT "uploading ${BUNDLE}"
+		VERBATIM
+		USES_TERMINAL
+		)
+endfunction()
+
 
 #=============================================================================
 #
@@ -678,6 +695,8 @@ function(px4_add_common_flags)
 		message(STATUS "address sanitizer enabled")
 		if ("${OS}" STREQUAL "nuttx")
 			set(max_optimization -Os)
+		elseif (${BOARD} STREQUAL "bebop")
+			set(max_optimization -Os)
 		endif()
 
 		# Do not use optimization_flags (without _) as that is already used.
@@ -691,6 +710,8 @@ function(px4_add_common_flags)
 			)
 	else()
 		if ("${OS}" STREQUAL "nuttx")
+			set(max_optimization -Os)
+		elseif (${BOARD} STREQUAL "bebop")
 			set(max_optimization -Os)
 		else()
 			set(max_optimization -O2)
@@ -809,9 +830,14 @@ function(px4_add_common_flags)
 
 	string(TOUPPER ${BOARD} board_upper)
 	string(REPLACE "-" "_" board_config ${board_upper})
+	set (added_target_definitions)
+	if (NOT ${target_definitions})
+	    px4_prepend_string(OUT added_target_definitions STR "-D" LIST ${target_definitions})
+	endif()
 	set(added_definitions
 		-DCONFIG_ARCH_BOARD_${board_config}
 		-D__STDC_FORMAT_MACROS
+		${added_target_definitions}
 		)
 
 	if (NOT (APPLE AND (${CMAKE_C_COMPILER_ID} MATCHES ".*Clang.*")))
@@ -892,7 +918,8 @@ function(px4_create_git_hash_header)
 		)
 	#message(STATUS "GIT_VERSION = ${git_version}")
 	set(git_version_short)
-	string(SUBSTRING ${git_version} 1 16 git_version_short)
+	# We use the first 16 chars, starting at index 0
+	string(SUBSTRING ${git_version} 0 16 git_version_short)
 	configure_file(${PX4_SOURCE_DIR}/cmake/templates/build_git_version.h.in ${HEADER} @ONLY)
 endfunction()
 

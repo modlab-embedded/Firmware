@@ -75,7 +75,7 @@ Standard::~Standard()
 {
 }
 
-int
+void
 Standard::parameters_update()
 {
 	float v;
@@ -122,13 +122,10 @@ Standard::parameters_update()
 
 
 
-	return OK;
 }
 
 void Standard::update_vtol_state()
 {
-	parameters_update();
-
 	/* After flipping the switch the vehicle will start the pusher (or tractor) motor, picking up
 	 * forward speed. After the vehicle has picked up enough speed the rotors shutdown.
 	 * For the back transition the pusher motor is immediately stopped and rotors reactivated.
@@ -345,7 +342,7 @@ void Standard::update_mc_state()
 	}
 
 	matrix::Dcmf R(matrix::Quatf(_v_att->q));
-	matrix::Dcmf R_sp(&_v_att_sp->R_body[0]);
+	matrix::Dcmf R_sp(matrix::Quatf(_v_att_sp->q_d));
 	matrix::Eulerf euler(R);
 	matrix::Eulerf euler_sp(R_sp);
 	_pusher_throttle = 0.0f;
@@ -390,7 +387,6 @@ void Standard::update_mc_state()
 		float roll = -atan2f(tilt_new(1), tilt_new(2));
 		R_sp = matrix::Eulerf(roll, pitch, euler_sp(2));
 		matrix::Quatf q_sp(R_sp);
-		memcpy(&_v_att_sp->R_body[0], &R_sp._data[0], sizeof(_v_att_sp->R_body));
 		memcpy(&_v_att_sp->q_d[0], &q_sp._data[0], sizeof(_v_att_sp->q_d));
 	}
 

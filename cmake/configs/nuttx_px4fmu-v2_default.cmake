@@ -26,14 +26,14 @@ set(config_module_list
 	#drivers/mb12xx
 	#drivers/srf02
 	drivers/sf0x
-	drivers/ll40ls
+	#drivers/ll40ls
 	drivers/trone
 	drivers/gps
 	drivers/pwm_out_sim
 	#drivers/hott
 	#drivers/hott/hott_telemetry
 	#drivers/hott/hott_sensors
-	drivers/blinkm
+	#drivers/blinkm
 	drivers/airspeed
 	drivers/ets_airspeed
 	drivers/meas_airspeed
@@ -46,7 +46,7 @@ set(config_module_list
 	drivers/pwm_input
 	drivers/camera_trigger
 	drivers/bst
-	drivers/snapdragon_rc_pwm
+	#drivers/snapdragon_rc_pwm
 	drivers/lis3mdl
 
 	#
@@ -54,7 +54,7 @@ set(config_module_list
 	#
 	systemcmds/bl_update
 	systemcmds/config
-	systemcmds/dumpfile
+	#systemcmds/dumpfile
 	#systemcmds/esc_calib
 	systemcmds/mixer
 	#systemcmds/motor_ramp
@@ -96,9 +96,9 @@ set(config_module_list
 	#
 	# Estimation modules
 	#
-	modules/attitude_estimator_q
-	modules/position_estimator_inav
-	modules/local_position_estimator
+	#modules/attitude_estimator_q
+	#modules/position_estimator_inav
+	#modules/local_position_estimator
 	modules/ekf2
 
 	#
